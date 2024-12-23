@@ -1,379 +1,272 @@
 ﻿using System;
-
-namespace day_07
+using System.Collections.Generic;
+using System.IO;
+public abstract class Question
 {
+    public string Body { get; set; }
+    public int Marks { get; set; }
+    public string Header { get; set; }
 
-
-    #region problem 1
-
-    public class Car
-    {
-        public int Id { get; set; }
-        public string Brand { get; set; }
-        public decimal Price { get; set; }
-
-        public Car() { }
-
-        public Car(int id)
-        {
-            Id = id;
-        }
-
-        public Car(int id, string brand)
-        {
-            Id = id;
-            Brand = brand;
-        }
-
-        public Car(int id, string brand, decimal price)
-        {
-            Id = id;
-            Brand = brand;
-            Price = price;
-        }
+    public Question(string body, int marks, string header)
+    { 
+   
+        Body = body;
+        Marks = marks;
+        Header = header;
     }
 
-    public class Program
-    {
-        public static void Main()
-        {
-            Car car1 = new Car();
-            Car car2 = new Car(1);
-            Car car3 = new Car(2, "Toyta");
-            Car car4 = new Car(3, "BMW", 35000m);
-
-            Console.WriteLine($"Car1: Id={car1.Id}, Brand={car1.Brand}, Price={car1.Price}");
-            Console.WriteLine($"Car2: Id={car2.Id}, Brand={car2.Brand}, Price={car2.Price}");
-            Console.WriteLine($"Car3: Id={car3.Id}, Brand={car3.Brand}, Price={car3.Price}");
-            Console.WriteLine($"Car4: Id={car4.Id}, Brand={car4.Brand}, Price={car4.Price}");
-        }
-    }
-    /*the compiler assumes that if you're explicitly defining constructors
-     you want to take full control of the instantiation process
-     including determining which constructors should exist and their behaviorDefault 
-    Constructor Generation automatically generates .*/
-    #endregion
-
-    #region problem 2
-
-    public class Calculator
-    {
-        public int Sum(int x, int y)
-        {
-            return x + y;
-        }
-
-        public int Sum(int x, int y, int z)
-        {
-            return x + y + z;
-        }
-
-        public double Sum(double x, double y)
-        {
-            return x + y;
-        }
-    }
-
-    public class Program
-    {
-        public static void Main()
-        {
-            Calculator calculator = new Calculator();
-
-            int result1 = calculator.Sum(5, 10);
-            Console.WriteLine($"Sum of two integers: {result1}");
-
-            int result2 = calculator.Sum(5, 10, 15);
-            Console.WriteLine($"Sum of three integers: {result2}");
-
-            double result3 = calculator.Sum(5.5, 10.5);
-            Console.WriteLine($"Sum of two doubles {result3}");
-        }
-    }
-    /*use of the same method name for different parameter types or counts
-      making the code more intuitive and consistent 
-    can different input types or scenarios without
-    duplicating logic or creating separate methods
-    with redundant functionality.*/
-
-    #endregion
-
-    #region problem 3
-    public class Parent
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Parent(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
-
-    public class Child : Parent
-    {
-        public int Z { get; set; }
-        public Child(int x, int y, int z) : base(x, y)
-        {
-            Z = z;
-        }
-    }
-
-    public class Program
-    {
-        public static void Main()
-        {
-            Child child = new Child(10, 20, 30);
-
-            Console.WriteLine($"X={child.X}, Y={child.Y}, Z={child.Z}");
-        }
-    }
-    /*  reuse the initialization logic from the base class
-      You don't need to duplicate code to initialize properties
-    that are already defined the base class and helpThis helps maintain a clear and consistent initialization process*/
-
-    #endregion
-
-    #region problem 4
-    namespace example
-    {
-        public class Parent
-        {
-            public int X { get; set; }
-            public int Y { get; set; }
-            public Parent(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
-
-            public virtual int Product()
-            {
-                return X * Y;
-            }
-        }
-
-        public class Child : Parent
-        {
-            public int Z { get; set; }
-
-            public Child(int x, int y, int z) : base(x, y)
-            {
-                Z = z;
-            }
-
-            public override int Product()
-            {
-                return X * Y * Z;
-            }
-        }
-    }
-
-
-    namespace example
-    {
-        public class Program
-        {
-            public static void Main()
-            {
-                Child child = new Child(2, 4 ,6);
-                Parent parentRef = child;
-                Console.WriteLine($"Parent reference: Product() = {parentRef.Product()}");
-                Console.WriteLine($"Child reference: Product() = {child.Product()}");
-            }
-        }
-    }
-    /*new keyword: Hides the base class method. If you call
-the method using a base class reference the base class method is called
-   override keyword:if the reference is of the parent type as long as the object is of the child type */
-    #endregion
-
-    #region problem 5
-    namespace example
-    {
-        public class Parent
-        {
-            public int X { get; set; }
-            public int Y { get; set; }
-
-            public Parent(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
-
-            public override string ToString()
-            {
-                return $"({X}, {Y})";
-            }
-        }
-
-        public class Child : Parent
-        {
-            public int Z { get; set; }
-
-            public Child(int x, int y, int z) : base(x, y)
-            {
-                Z = z;
-            }
-
-            public override string ToString()
-            {
-                return $"({X}, {Y}, {Z})";
-            }
-        }
-    }
-
-    namespace ex
-    {
-        public class Program
-        {
-            public static void Main()
-            {
-                Parent parent = new Parent(5, 10);
-                Child child = new Child(5, 10, 15);
-                Console.WriteLine(parent.ToString()); 
-                Console.WriteLine(child.ToString());  
-            }
-        }
-    }
-    /*  meaningful string representation of the object making it easier to inspect and debug
-   Logging and Display Custom ToString() implementations allow formats which are useful in applications*/
-    #endregion
-
-    #region problem 6
-
-    namespace Shapes
-    {
-        public interface IShape
-        {
-            double Area { get; }
-            void Draw();
-        }
-
-        public class Rectangle : IShape
-        {
-            public double Width { get; set; }
-            public double Height { get; set; }
-
-            public Rectangle(double width, double height)
-            {
-                Width = width;
-                Height = height;
-            }
-
-            public double Area => Width * Height;
-
-            public void Draw()
-            {
-                Console.WriteLine($"Drawing a rectangle with width {Width} and height {Height}");
-            }
-        }
-    }
-
-
-    namespace Shapes
-    {
-        public class Program
-        {
-            public static void Main()
-            {
-                IShape rectangle = new Rectangle(5, 10);
-                rectangle.Draw();
-                Console.WriteLine($"Area of rectangle: {rectangle.Area}");
-             
-            }
-        }
-    }
-    /*You can't create an instance of  interface directly becauseNo Implementation
-    nterface only defines method signatures
-    To create an object, you need a class that implements the interface
-    */
-    #endregion
-
-    #region problem 7
-    namespace Shapes
-    {
-        public interface IShape
-        {
-            double Area { get; }
-            void Draw();
-            void PrintDetails()
-            {
-                Console.WriteLine($"Area: {Area}");
-            }
-        }
-
-        public class Circle : IShape
-        {
-            public double Radius { get; set; }
-
-            public Circle(double radius)
-            {
-                Radius = radius;
-            }
-
-            public double Area => Math.PI * Radius * Radius;
-
-            public void Draw()
-            {
-                Console.WriteLine($"Drawing a circle with radius {Radius}");
-            }
-        }
-    }
-
-
-    namespace Shapes
-    {
-        public class Program
-        {
-            public static void Main()
-            {
-                IShape circle = new Circle(10);
-                circle.PrintDetails();
-                circle.Draw();
-            }
-        }
-    }
-    /* If new methods are added with default behavior
-      classes that implement the interface don't need to be modified
-      which is especially useful for maintaining libraries */
-    #endregion
-
-    #region problem 8
-    namespace Vehicles
-
-    {
-        public interface IMovable
-        {
-            void Move();
-        }
-
-        public class Car : IMovable
-        {
-            public void Move()
-            {
-                Console.WriteLine("The car is moving.");
-            }
-        }
-    }
-
-    namespace Vehicles
-
-    {
-        public class Program
-        {
-            public static void Main()
-            {
-                IMovable movableCar = new Car();
-                movableCar.Move();
-            }
-        }
-    }
-
-             /* allows you to treat objects of different classes that implement and This approach promotes the use of polymorphism allowing you to
-           switch out implementations without changing the code that uses the interface*/
-    #endregion
-
+    public abstract void DisplayQuestion();
 }
 
+public class TrueFalseQuestion : Question
+{
+    public bool CorrectAnswer { get; set; }
+
+    public TrueFalseQuestion(string body, int marks, string header, bool correctAnswer)
+        : base(body, marks, header)
+    {
+        CorrectAnswer = correctAnswer;
+    }
+
+    public override void DisplayQuestion()
+    {
+        Console.WriteLine($"{Header}\n{Body}\nTrue/False");
+    }
+}
+
+public class ChooseOneQuestion : Question
+{
+    public List<string> Choices { get; set; }
+    public int CorrectAnswerIndex { get; set; }
+
+    public ChooseOneQuestion(string body, int marks, string header, List<string> choices, int correctAnswerIndex)
+           : base(body, marks, header)
+    {
+        Choices = choices;
+        CorrectAnswerIndex = correctAnswerIndex;
+    }
+    public override void DisplayQuestion()
+    {
+        Console.WriteLine($"{Header}\n{Body}");
+        for (int i = 0; i < Choices.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {Choices[i]}");
+        }
+    }
+}
+
+public class ChooseAllQuestion : Question
+{
+    public List<string> Choices { get; set; }
+    public List<int> CorrectAnswerIndexes { get; set; }
+
+    public ChooseAllQuestion(string body, int marks, string header, List<string> choices, List<int> correctAnswerIndexes)
+   : base(body, marks, header)
+    {
+        Choices = choices;
+        CorrectAnswerIndexes = correctAnswerIndexes;
+    }
+
+    public override void DisplayQuestion()
+    {
+        Console.WriteLine($"{Header}\n{Body}");
+        for (int i = 0; i < Choices.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {Choices[i]}");
+        }
+    }
+}
+
+public class QuestionList : List<Question>
+{
+    private string _fileName;
+
+    public QuestionList(string fileName)
+    {
+        _fileName = fileName;
+    }
+
+    public new void Add(Question question)
+    {
+        base.Add(question);
+        LogQuestion(question);
+    }
+
+    private void LogQuestion(Question question)
+    {
+        using (StreamWriter writer = new StreamWriter(_fileName, true))
+        {
+            writer.WriteLine($"Header: {question.Header}, Body: {question.Body}, Marks: {question.Marks}");
+        }
+    }
+}
+
+public class Answer
+{
+    public Question Question { get; set; }
+    public object AnswerGiven { get; set; }
+
+    public Answer(Question question, object answerGiven)
+    {
+        Question = question;
+        AnswerGiven = answerGiven;
+    }
+}
+
+public class AnswerList : List<Answer>
+{
+}
+
+public abstract class Exam : ICloneable, IComparable<Exam>
+{
+    public string Subject { get; set; }
+    public TimeSpan Duration { get; set; }
+    public List<Question> Questions { get; set; }
+    public Dictionary<Question, Answer> QuestionAnswerDict { get; set; }
+    public string Mode { get; set; }
+
+    public Exam(string subject, TimeSpan duration)
+    {
+        Subject = subject;
+        Duration = duration;
+        Questions = new List<Question>();
+        QuestionAnswerDict = new Dictionary<Question, Answer>();
+        Mode = "Queued";
+    }
+
+    public abstract void ShowExam();
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+
+    public int CompareTo(Exam other)
+    {
+        return this.Subject.CompareTo(other.Subject);
+    }
+}
+
+public class PracticeExam : Exam
+{
+    public PracticeExam(string subject, TimeSpan duration)
+        : base(subject, duration) { }
+
+    public override void ShowExam()
+    {
+        foreach (var question in Questions)
+        {
+            question.DisplayQuestion();
+            if (Mode == "Finished")
+            {
+                Console.WriteLine($"Answer: {QuestionAnswerDict[question].AnswerGiven}");
+            }
+        }
+    }
+}
+
+public class FinalExam : Exam
+{
+    public FinalExam(string subject, TimeSpan duration)
+        : base(subject, duration) { }
+
+    public override void ShowExam()
+    {
+        foreach (var question in Questions)
+        {
+            question.DisplayQuestion();
+        }
+    }
+}
+
+public class Subject
+{
+    public string Name { get; set; }
+    public string Code { get; set; }
+    public string Description { get; set; }
+
+    public Subject(string name, string code, string description)
+    {
+        Name = name;
+        Code = code;
+        Description = description;
+    }
+}
+public class Student
+{
+    public string Name { get; set; }
+
+    public Student(string name)
+    {
+        Name = name;
+    }
+
+    public void OnExamStarted(object sender, EventArgs e)
+    {
+        Console.WriteLine($"{Name} has been notified that the exam has started.");
+    }
+}
+public class ExamEventArgs : EventArgs
+{
+    public string ExamName { get; set; }
+
+    public ExamEventArgs(string examName)
+    {
+        ExamName = examName;
+    }
+}
+
+public class ExamNotificationSystem
+{
+    public event EventHandler<ExamEventArgs> ExamStarted;
+
+    public void StartExam(string examName)
+    {
+        OnExamStarted(new ExamEventArgs(examName));
+    }
+
+    protected virtual void OnExamStarted(ExamEventArgs e)
+    {
+        ExamStarted?.Invoke(this, e);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var subject = new Subject("Astronomy", "AST101", "Exploring the mysteries of the universe and celestial bodies.");
+
+        var practiceExam = new PracticeExam(subject.Name, new TimeSpan(1, 30, 0));
+        var finalExam = new FinalExam(subject.Name, new TimeSpan(2, 0, 0));
+
+        var student1 = new Student("Elara Moonstone");
+        var student2 = new Student("Orion Nebula");
+
+        var notificationSystem = new ExamNotificationSystem();
+        notificationSystem.ExamStarted += student1.OnExamStarted;
+        notificationSystem.ExamStarted += student2.OnExamStarted;
+
+        practiceExam.Questions.Add(new TrueFalseQuestion("Is the Milky Way galaxy the only galaxy in the universe?", 2, "Galaxy Exploration", false));
+        finalExam.Questions.Add(new ChooseOneQuestion("What is the closest planet to the Sun?", 3, "Solar System Quiz",
+            new List<string> { "Earth", "Venus", "Mercury", "Mars" }, 3));
+
+        practiceExam.Questions.Add(new ChooseAllQuestion("Select the planets with rings.", 5, "Planetary Rings",
+            new List<string> { "Saturn", "Jupiter", "Earth", "Neptune" }, new List<int> { 1, 2, 4 }));
+
+
+        Console.WriteLine("Choose Exam Type: 1. Practice Exam 2. Final Exam");
+        var choice = Console.ReadLine();
+
+        if (choice == "1")
+        {
+            practiceExam.ShowExam();
+            notificationSystem.StartExam("Practice Exam");
+        }
+        else if (choice == "2")
+        {
+            finalExam.ShowExam();
+            notificationSystem.StartExam("Final Exam");
+        }
+    }
+}
